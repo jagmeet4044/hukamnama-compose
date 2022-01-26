@@ -1,16 +1,17 @@
 
 package com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData;
 
+import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
 public class Hukamnamainfo {
 
     @SerializedName("shabadid")
     @Expose
-    private List<Integer> shabadid = null;
+    private List<String> shabadid = null;
     @SerializedName("pageno")
     @Expose
     private Integer pageno;
@@ -23,12 +24,15 @@ public class Hukamnamainfo {
     @SerializedName("raag")
     @Expose
     private Raag raag;
+    @SerializedName("count")
+    @Expose
+    private Integer count;
 
-    public List<Integer> getShabadid() {
+    public List<String> getShabadid() {
         return shabadid;
     }
 
-    public void setShabadid(List<Integer> shabadid) {
+    public void setShabadid(List<String> shabadid) {
         this.shabadid = shabadid;
     }
 
@@ -62,6 +66,14 @@ public class Hukamnamainfo {
 
     public void setRaag(Raag raag) {
         this.raag = raag;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
 }

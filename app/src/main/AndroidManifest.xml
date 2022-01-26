@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jagmeet.android.gurbaani">
 
-    <uses-permission android:name="com.samsung.android.bixby.agent.permission.LAUNCH_BIXBY_VOICE"/>
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

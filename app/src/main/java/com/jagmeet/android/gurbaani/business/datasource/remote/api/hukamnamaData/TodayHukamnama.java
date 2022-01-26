@@ -1,10 +1,11 @@
 
 package com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData;
 
+import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
 public class TodayHukamnama {
 
@@ -17,9 +18,9 @@ public class TodayHukamnama {
     @SerializedName("hukamnama")
     @Expose
     private List<Hukamnama> hukamnama = null;
-    @SerializedName("license")
+    @SerializedName("error")
     @Expose
-    private String license;
+    private Boolean error;
 
     public Date getDate() {
         return date;
@@ -45,12 +46,12 @@ public class TodayHukamnama {
         this.hukamnama = hukamnama;
     }
 
-    public String getLicense() {
-        return license;
+    public Boolean getError() {
+        return error;
     }
 
-    public void setLicense(String license) {
-        this.license = license;
+    public void setError(Boolean error) {
+        this.error = error;
     }
 
 }

@@ -1,23 +1,25 @@
 
 package com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData;
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 
 public class Transliteration {
 
     @SerializedName("english")
     @Expose
-    private English__ english;
+    private English__2 english;
     @SerializedName("devanagari")
     @Expose
     private Devanagari devanagari;
 
-    public English__ getEnglish() {
+    public English__2 getEnglish() {
         return english;
     }
 
-    public void setEnglish(English__ english) {
+    public void setEnglish(English__2 english) {
         this.english = english;
     }
 

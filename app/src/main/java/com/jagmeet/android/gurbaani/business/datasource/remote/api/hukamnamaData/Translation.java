@@ -1,34 +1,36 @@
 
 package com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData;
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 
 public class Translation {
 
     @SerializedName("english")
     @Expose
-    private English_ english;
+    private English__1 english;
     @SerializedName("punjabi")
     @Expose
-    private Punjabi_ punjabi;
+    private Punjabi__1 punjabi;
     @SerializedName("spanish")
     @Expose
     private String spanish;
 
-    public English_ getEnglish() {
+    public English__1 getEnglish() {
         return english;
     }
 
-    public void setEnglish(English_ english) {
+    public void setEnglish(English__1 english) {
         this.english = english;
     }
 
-    public Punjabi_ getPunjabi() {
+    public Punjabi__1 getPunjabi() {
         return punjabi;
     }
 
-    public void setPunjabi(Punjabi_ punjabi) {
+    public void setPunjabi(Punjabi__1 punjabi) {
         this.punjabi = punjabi;
     }
 

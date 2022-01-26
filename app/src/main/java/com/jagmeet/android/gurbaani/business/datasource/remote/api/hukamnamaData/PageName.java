@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Firstletters {
+public class PageName {
 
     @SerializedName("akhar")
     @Expose
@@ -14,6 +14,9 @@ public class Firstletters {
     @SerializedName("unicode")
     @Expose
     private String unicode;
+    @SerializedName("english")
+    @Expose
+    private String english;
 
     public String getAkhar() {
         return akhar;
@@ -29,6 +32,14 @@ public class Firstletters {
 
     public void setUnicode(String unicode) {
         this.unicode = unicode;
+    }
+
+    public String getEnglish() {
+        return english;
+    }
+
+    public void setEnglish(String english) {
+        this.english = english;
     }
 
 }

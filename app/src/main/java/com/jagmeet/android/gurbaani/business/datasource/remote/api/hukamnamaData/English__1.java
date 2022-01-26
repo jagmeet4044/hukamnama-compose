@@ -1,10 +1,12 @@
 
 package com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData;
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class English_ {
+
+public class English__1 {
 
     @SerializedName("default")
     @Expose
