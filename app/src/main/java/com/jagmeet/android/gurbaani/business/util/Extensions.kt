@@ -2,14 +2,16 @@ package com.jagmeet.android.gurbaani.business.util
 
 import com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData.TodayHukamnama
 import com.jagmeet.android.gurbaani.business.model.Hukamnama
-import kotlin.text.StringBuilder
 
 fun TodayHukamnama.toHukamnama(): Hukamnama {
-    var hukamnama = StringBuilder()
+    var punjabi: MutableList<String> = emptyList<String>().toMutableList()
+    var english: MutableList<String> = emptyList<String>().toMutableList()
+    var hindi: MutableList<String> = emptyList<String>().toMutableList()
     for (hukamnamaList in this.hukamnama) {
-        hukamnama.append(hukamnamaList.line.gurmukhi.unicode)
-        hukamnama.append(System.getProperty("line.separator"))
+        punjabi.add(hukamnamaList.line.gurmukhi.unicode)
+        english.add(hukamnamaList.line.transliteration.english.text)
+        hindi.add(hukamnamaList.line.transliteration.devanagari.text)
     }
-    return Hukamnama(hukamnama.toString())
+    return Hukamnama(punjabi, english, hindi)
 
 }

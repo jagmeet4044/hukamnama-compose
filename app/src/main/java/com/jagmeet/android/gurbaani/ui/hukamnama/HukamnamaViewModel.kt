@@ -1,17 +1,10 @@
 package com.jagmeet.android.gurbaani.ui.hukamnama
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jagmeet.android.gurbaani.business.datasource.HukamnamaRepository
-import com.jagmeet.android.gurbaani.business.datasource.remote.HukamnamaNetworkSource
-import com.jagmeet.android.gurbaani.business.datasource.remote.api.HukamnamaEndPoint
-import com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData.TodayHukamnama
 import com.jagmeet.android.gurbaani.business.model.Hukamnama
 import com.jagmeet.android.gurbaani.business.model.Result
 import kotlinx.coroutines.flow.collect
@@ -19,8 +12,9 @@ import kotlinx.coroutines.launch
 
 class HukamnamaViewModel : ViewModel() {
 
-    private var _hukamNama: MutableState<String> = mutableStateOf("")
-    val hukamNama: State<String> = _hukamNama
+    var hukamNama = mutableStateOf(Hukamnama())
+        private set
+
     var hukamnamaRepository: HukamnamaRepository = HukamnamaRepository();
 
     init {
@@ -40,8 +34,8 @@ class HukamnamaViewModel : ViewModel() {
                     hukamnamaRepository.getHukamnama().collect {
                         when (it.status) {
                             Result.Status.SUCCESS -> {
-                                var hukamnama = it.data as Hukamnama
-                                _hukamNama.value = hukamnama.hukamnama
+                                var result = it.data as Hukamnama
+                                hukamNama.value = result
                             }
                             Result.Status.ERROR ->
                                 Log.d(TAG, " get hukamnama called")
