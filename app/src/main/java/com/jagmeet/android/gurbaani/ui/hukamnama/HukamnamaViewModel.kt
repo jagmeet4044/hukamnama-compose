@@ -6,20 +6,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jagmeet.android.gurbaani.business.datasource.HukamnamaRepository
 import com.jagmeet.android.gurbaani.business.model.Hukamnama
+import com.jagmeet.android.gurbaani.business.model.HukamnamaDetail
 import com.jagmeet.android.gurbaani.business.model.Result
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HukamnamaViewModel : ViewModel() {
 
-    var hukamNama = mutableStateOf(Hukamnama())
+    var hukamNama = mutableStateOf(HukamnamaDetail())
         private set
 
     var hukamnamaRepository: HukamnamaRepository = HukamnamaRepository();
 
     init {
         Log.d(TAG, " it is a new viewmodel")
-
     }
 
     override fun onCleared() {
@@ -34,7 +34,7 @@ class HukamnamaViewModel : ViewModel() {
                     hukamnamaRepository.getHukamnama().collect {
                         when (it.status) {
                             Result.Status.SUCCESS -> {
-                                var result = it.data as Hukamnama
+                                var result = it.data as HukamnamaDetail
                                 hukamNama.value = result
                             }
                             Result.Status.ERROR ->

@@ -1,8 +1,13 @@
 package com.jagmeet.android.gurbaani.business.model
 
+data class HukamnamaDetail(
+    val english: Hukamnama = Hukamnama(),
+    val punjabi: Hukamnama = Hukamnama()
+)
+
 class Hukamnama(
-    val punjabi: List<String> = emptyList(),
-    val english: List<String> = emptyList(),
-    val hindi: List<String> = emptyList()
-) {
-}
+    val info: String = "",
+    val gregorianDate: String = "",
+    val nanakShahiDate: String = "",
+    val lines: List<String> = emptyList(),
+)

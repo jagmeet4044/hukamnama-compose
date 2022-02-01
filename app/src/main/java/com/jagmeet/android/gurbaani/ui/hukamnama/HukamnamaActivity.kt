@@ -14,13 +14,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.pager.*
-import com.jagmeet.android.gurbaani.business.model.Hukamnama
+import com.jagmeet.android.gurbaani.business.model.HukamnamaDetail
 import com.jagmeet.android.gurbaani.ui.theme.GurbaaniTheme
 import kotlinx.coroutines.launch
 
 class HukamnamaActivity : ComponentActivity() {
     private val viewModel: HukamnamaViewModel by viewModels()
-    lateinit var hukamNama: MutableState<Hukamnama>
+    lateinit var hukamNama: MutableState<HukamnamaDetail>
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class HukamnamaActivity : ComponentActivity() {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     fun MainScreen() {
-        val tabs = listOf(TabItem.Punjabi, TabItem.English, TabItem.Hindi)
+        val tabs = listOf(TabItem.Punjabi, TabItem.English)
         val pagerState = rememberPagerState()
         Scaffold() {
             Column {
@@ -89,7 +89,7 @@ class HukamnamaActivity : ComponentActivity() {
             when (tabs[page]) {
                 is TabItem.Punjabi -> showHukamNama(hukamNama.value.punjabi)
                 is TabItem.English -> showHukamNama(hukamNama.value.english)
-                is TabItem.Hindi -> showHukamNama(hukamNama.value.hindi)
+                is TabItem.Hindi -> {}
             }
         }
     }

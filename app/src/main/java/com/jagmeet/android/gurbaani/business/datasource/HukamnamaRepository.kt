@@ -1,21 +1,19 @@
 package com.jagmeet.android.gurbaani.business.datasource
 
 import com.jagmeet.android.gurbaani.business.datasource.remote.HukamnamaNetworkSource
-import com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData.TodayHukamnama
-import com.jagmeet.android.gurbaani.business.model.Hukamnama
+import com.jagmeet.android.gurbaani.business.model.HukamnamaDetail
 import com.jagmeet.android.gurbaani.business.model.Result
 import com.jagmeet.android.gurbaani.business.util.ApiResult
 import com.jagmeet.android.gurbaani.business.util.toHukamnama
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
 
-class HukamnamaRepository @Inject constructor(
+class HukamnamaRepository  constructor(
 ) {
     private var hukamnamaNetworkSource: HukamnamaNetworkSource = HukamnamaNetworkSource()
 
-    fun getHukamnama(): Flow<Result<Hukamnama?>> = flow {
+    fun getHukamnama(): Flow<Result<HukamnamaDetail?>> = flow {
         val apiResult =
             hukamnamaNetworkSource.getHukamnama()
 
