@@ -14,7 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.pager.*
-import com.jagmeet.android.gurbaani.business.model.HukamnamaDetail
+import com.jagmeet.android.gurbaani.model.HukamnamaDetail
 import com.jagmeet.android.gurbaani.ui.theme.GurbaaniTheme
 import kotlinx.coroutines.launch
 
@@ -87,8 +87,8 @@ class HukamnamaActivity : ComponentActivity() {
     fun TabsContent(tabs: List<TabItem>, pagerState: PagerState, modifier: Modifier) {
         HorizontalPager(state = pagerState, count = tabs.size, modifier = modifier) { page ->
             when (tabs[page]) {
-                is TabItem.Punjabi -> showHukamNama(hukamNama.value.punjabi)
-                is TabItem.English -> showHukamNama(hukamNama.value.english)
+                is TabItem.Punjabi -> showHukamNamaScreen(hukamNama.value.punjabi)
+                is TabItem.English -> showHukamNamaScreen(hukamNama.value.english)
                 is TabItem.Hindi -> {}
             }
         }
