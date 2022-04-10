@@ -14,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.pager.*
 import com.jagmeet.android.gurbaani.ui.theme.GurbaaniTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HukamnamaActivity : ComponentActivity() {
 
     private val viewModel: HukamnamaViewModel by viewModels()

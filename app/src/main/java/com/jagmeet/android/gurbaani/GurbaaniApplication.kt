@@ -1,8 +1,10 @@
 package com.jagmeet.android.gurbaani
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class GurbaaniApplication:Application() {
+@HiltAndroidApp
+class GurbaaniApplication : Application() {
 
 
 }
