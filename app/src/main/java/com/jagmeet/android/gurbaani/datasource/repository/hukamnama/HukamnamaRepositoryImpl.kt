@@ -6,8 +6,8 @@ import com.jagmeet.android.gurbaani.datasource.database.HukamnamaDao
 import com.jagmeet.android.gurbaani.datasource.database.asDomainModel
 import com.jagmeet.android.gurbaani.datasource.network.hukamnama.TodayHukamnamaService
 import com.jagmeet.android.gurbaani.datasource.network.hukamnama.hukamnama_data.TodayHukamnama
+import com.jagmeet.android.gurbaani.datasource.util.asDbInfo
 import com.jagmeet.android.gurbaani.model.HukamnamaDetail
-import com.jagmeet.android.gurbaani.util.asDbInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector

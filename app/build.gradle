@@ -94,7 +94,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager-indicators:0.19.0" // Pager Indicators
 
 
-
     // joda time library for dealing with time
     implementation 'joda-time:joda-time:2.10'
 
@@ -124,4 +123,7 @@ dependencies {
     // WorkManager dependency
     def versions_work = "2.7.1"
     implementation "androidx.work:work-runtime-ktx:$versions_work"
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
