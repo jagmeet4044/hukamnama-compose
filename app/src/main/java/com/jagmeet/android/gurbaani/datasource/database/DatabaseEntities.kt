@@ -21,7 +21,7 @@ class HukamnamaEntity constructor(
 
 @Entity
 class HukamnamaInfoEntity constructor(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "info_id") val hukamnamaInfoId: Int,
     @Embedded(prefix = "eng_")
     val hukamnamaEntityEng: HukamnamaEntity,

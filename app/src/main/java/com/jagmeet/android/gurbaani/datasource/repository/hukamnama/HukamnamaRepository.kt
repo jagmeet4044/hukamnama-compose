@@ -5,5 +5,5 @@ import com.jagmeet.android.gurbaani.model.HukamnamaDetail
 import kotlinx.coroutines.flow.Flow
 
 interface HukamnamaRepository {
-    suspend fun getHukamnama(): Flow<Result<HukamnamaDetail?>>
+    suspend fun getHukamnama(forceFetch:Boolean): Flow<Result<HukamnamaDetail?>>
 }

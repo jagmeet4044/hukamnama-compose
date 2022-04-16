@@ -28,10 +28,10 @@ class HukamnamaViewModel @Inject constructor(private val hukamnamaRepository: Hu
         Log.d(TAG, " it is a new viewmodel")
     }
 
-    fun getHukamNama() {
+    private fun getHukamNama() {
         Log.d(TAG, " get hukamnama called")
         viewModelScope.launch {
-            hukamnamaRepository.getHukamnama().collect {
+            hukamnamaRepository.getHukamnama(false).collect {
                 when (it.status) {
                     Result.Status.SUCCESS -> {
                         Log.d(TAG, "SUCCESS")

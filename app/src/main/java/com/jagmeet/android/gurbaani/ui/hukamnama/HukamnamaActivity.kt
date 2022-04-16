@@ -22,7 +22,6 @@ class HukamnamaActivity : ComponentActivity() {
 
     private val viewModel: HukamnamaViewModel by viewModels()
 
-
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

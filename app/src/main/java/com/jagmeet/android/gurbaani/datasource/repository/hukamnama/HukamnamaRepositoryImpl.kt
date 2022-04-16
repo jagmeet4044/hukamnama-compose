@@ -8,8 +8,9 @@ import com.jagmeet.android.gurbaani.datasource.network.hukamnama.TodayHukamnamaS
 import com.jagmeet.android.gurbaani.datasource.network.hukamnama.hukamnama_data.TodayHukamnama
 import com.jagmeet.android.gurbaani.model.HukamnamaDetail
 import com.jagmeet.android.gurbaani.util.asDbInfo
-import com.jagmeet.android.gurbaani.util.toHukamnama
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -21,32 +22,44 @@ class HukamnamaRepositoryImpl @Inject constructor(
     private val todayHukamnamaService: TodayHukamnamaService
 ) : HukamnamaRepository {
 
-    override suspend fun getHukamnama(): Flow<Result<HukamnamaDetail?>> = flow {
-        var hukamnama = hukamnamaDao.getHukamNama()
-        if (hukamnama != null) {
-            Log.d("jagmeet_nir", "got from cache")
-            emit(Result.success(hukamnama.asDomainModel()))
+    override suspend fun getHukamnama(forceFetch: Boolean): Flow<Result<HukamnamaDetail?>> = flow {
+        if (forceFetch) {
+            fetch(this)
         } else {
-            val result = refreshHukamnama()
-            when (result.status) {
-                Result.Status.SUCCESS -> {
-                    val hukam = result.data as TodayHukamnama
-                    val dbObject = hukam.asDbInfo();
-                    hukamnamaDao.insert(dbObject)
-                    var hukamnama = hukamnamaDao.getHukamNama()
-                    Log.d("jagmeet_nir", "emit success")
-                    emit(Result.success(hukam.toHukamnama()))
-                }
-                Result.Status.ERROR -> {
-                    emit(Result.error("failed to get latest Hukamnama", null))
-                }
+            var hukamnama = hukamnamaDao.getHukamNama()
+            if (hukamnama != null) {
+                Log.d("jagmeet_work", "got from cache")
+                emit(Result.success(hukamnama.asDomainModel()))
+            } else {
+                fetch(this)
             }
 
         }
     }.catch { e -> handleUseCaseException(e) }
 
-    private suspend fun refreshHukamnama(): Result<TodayHukamnama> {
-        Log.d("jagmeet_nir", "refreshHukamnama")
+    private suspend fun fetch(
+        flowCollector: FlowCollector<Result<HukamnamaDetail>>
+    ) {
+        val result = fetchHukamnama()
+        delay(1000)
+        when (result.status) {
+            Result.Status.SUCCESS -> {
+                val hukam = result.data as TodayHukamnama
+                val dbObject = hukam.asDbInfo();
+                hukamnamaDao.insert(dbObject)
+                var hukamnama = hukamnamaDao.getHukamNama()
+                Log.d("jagmeet_work", "emit success")
+                flowCollector.emit(Result.success(hukamnama.asDomainModel()))
+            }
+            Result.Status.ERROR -> {
+                flowCollector.emit(Result.error("failed to get latest Hukamnama", null))
+            }
+        }
+    }
+
+
+    private suspend fun fetchHukamnama(): Result<TodayHukamnama> {
+        Log.d("jagmeet_work", "refreshHukamnama")
         var todayHukamnama = todayHukamnamaService?.getHukamnama()
         return if (todayHukamnama != null) {
             Result.success(todayHukamnama)
