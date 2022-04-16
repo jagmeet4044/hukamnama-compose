@@ -67,22 +67,12 @@ class GurbaaniApplication : Application(), Configuration.Provider {
                 )
                 .build()
 
-        val oneRequest =
-            OneTimeWorkRequestBuilder<RefreshDataWorker>()
-                .setConstraints(constraints)
-                .build()
-
-//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-//            RefreshDataWorker.WORK_NAME,
-//            ExistingPeriodicWorkPolicy.KEEP,
-//            repeatingRequest
-//        )
-
-        WorkManager.getInstance(this).enqueueUniqueWork(
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             RefreshDataWorker.WORK_NAME,
-            ExistingWorkPolicy.KEEP,
-            oneRequest
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingRequest
         )
+
 
     }
 
