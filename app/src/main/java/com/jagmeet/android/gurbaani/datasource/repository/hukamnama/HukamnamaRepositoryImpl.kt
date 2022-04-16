@@ -1,6 +1,5 @@
 package com.jagmeet.android.gurbaani.datasource.repository.hukamnama
 
-import android.util.Log
 import com.jagmeet.android.gurbaani.Result
 import com.jagmeet.android.gurbaani.datasource.database.HukamnamaDao
 import com.jagmeet.android.gurbaani.datasource.database.asDomainModel
@@ -14,6 +13,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -28,7 +28,7 @@ class HukamnamaRepositoryImpl @Inject constructor(
         } else {
             var hukamnama = hukamnamaDao.getHukamNama()
             if (hukamnama != null) {
-                Log.d("jagmeet_work", "got from cache")
+                Timber.d("got Hukamnama from Cache")
                 emit(Result.success(hukamnama.asDomainModel()))
             } else {
                 fetch(this)
@@ -46,9 +46,10 @@ class HukamnamaRepositoryImpl @Inject constructor(
             Result.Status.SUCCESS -> {
                 val hukam = result.data as TodayHukamnama
                 val dbObject = hukam.asDbInfo();
+                Timber.d("storing hukamnama to cache")
                 hukamnamaDao.insert(dbObject)
                 var hukamnama = hukamnamaDao.getHukamNama()
-                Log.d("jagmeet_work", "emit success")
+                Timber.d("emit success")
                 flowCollector.emit(Result.success(hukamnama.asDomainModel()))
             }
             Result.Status.ERROR -> {
@@ -59,7 +60,7 @@ class HukamnamaRepositoryImpl @Inject constructor(
 
 
     private suspend fun fetchHukamnama(): Result<TodayHukamnama> {
-        Log.d("jagmeet_work", "refreshHukamnama")
+        Timber.d("fetchHukamnama")
         var todayHukamnama = todayHukamnamaService?.getHukamnama()
         return if (todayHukamnama != null) {
             Result.success(todayHukamnama)
@@ -69,7 +70,7 @@ class HukamnamaRepositoryImpl @Inject constructor(
 
     private fun handleUseCaseException(e: Throwable): Result<HukamnamaDetail?> {
         e.printStackTrace()
-        Log.d("jagmeet_nir", "handleUseCaseException ${e.message}")
+        Timber.d("handleUseCaseException ${e.message}")
         return when (e) {
             is HttpException -> {
                 Result.error("network error", null)

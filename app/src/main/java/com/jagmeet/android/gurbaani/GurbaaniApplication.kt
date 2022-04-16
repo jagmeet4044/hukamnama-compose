@@ -10,6 +10,7 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -30,6 +31,17 @@ class GurbaaniApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         delayedInit()
+        setupLogger()
+    }
+
+    private fun setupLogger() {
+        Timber.plant(object : Timber.DebugTree() {
+            override fun log(
+                priority: Int, tag: String?, message: String, t: Throwable?
+            ) {
+                super.log(priority, "Hukamnama_today_$tag", message, t)
+            }
+        })
     }
 
     private fun delayedInit() {
@@ -45,7 +57,7 @@ class GurbaaniApplication : Application(), Configuration.Provider {
     private fun setupRecurringWork() {
 
         val constraints = Constraints.Builder()
-          //  .setRequiredNetworkType(NetworkType.UNMETERED)
+            //  .setRequiredNetworkType(NetworkType.UNMETERED)
             // .setRequiresCharging(true)
             .setRequiresBatteryNotLow(false)
             .setRequiresCharging(false)
@@ -58,7 +70,7 @@ class GurbaaniApplication : Application(), Configuration.Provider {
             .build()
 
         val repeatingRequest =
-            PeriodicWorkRequestBuilder<RefreshDataWorker>(WorkerUtil.getDelay(), TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<RefreshDataWorker>(WorkerUtil.getDelayInMinutes(), TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .setBackoffCriteria(
                     BackoffPolicy.LINEAR,
@@ -72,9 +84,5 @@ class GurbaaniApplication : Application(), Configuration.Provider {
             ExistingPeriodicWorkPolicy.KEEP,
             repeatingRequest
         )
-
-
     }
-
-
 }
