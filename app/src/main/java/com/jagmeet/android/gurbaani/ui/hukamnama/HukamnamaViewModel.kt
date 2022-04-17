@@ -1,52 +1,59 @@
 package com.jagmeet.android.gurbaani.ui.hukamnama
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jagmeet.android.gurbaani.business.datasource.HukamnamaRepository
-import com.jagmeet.android.gurbaani.business.datasource.remote.HukamnamaNetworkSource
-import com.jagmeet.android.gurbaani.business.datasource.remote.api.HukamnamaEndPoint
-import com.jagmeet.android.gurbaani.business.datasource.remote.api.hukamnamaData.TodayHukamnama
-import com.jagmeet.android.gurbaani.business.model.Hukamnama
-import com.jagmeet.android.gurbaani.business.model.Result
+import com.jagmeet.android.gurbaani.Result
+import com.jagmeet.android.gurbaani.datasource.repository.hukamnama.HukamnamaRepository
+import com.jagmeet.android.gurbaani.model.HukamnamaDetail
+import com.jagmeet.android.gurbaani.ui.Message
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.*
+import javax.inject.Inject
 
-class HukamnamaViewModel : ViewModel() {
+@HiltViewModel
+class HukamnamaViewModel @Inject constructor(private val hukamnamaRepository: HukamnamaRepository) :
+    ViewModel() {
 
-    private var _hukamNama: MutableLiveData<String> = MutableLiveData()
-    val hukamNama: LiveData<String> = _hukamNama
-    var hukamnamaRepository: HukamnamaRepository = HukamnamaRepository();
+    var hukamNamaState by mutableStateOf(HukamnamaUiState())
+        private set
 
     init {
-        Log.d(TAG, " it is a new viewmodel")
-
+        getHukamNama()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
-    fun onTriggerAction(hukamnamaActions: HukamnamaActions) {
-        when (hukamnamaActions) {
-            is HukamnamaActions.GetHukamnama -> {
-                Log.d(TAG, " get hukamnama called")
-                viewModelScope.launch {
-                    hukamnamaRepository.getHukamnama().collect {
-                        when (it.status) {
-                            Result.Status.SUCCESS -> {
-                                var hukamnama = it.data as Hukamnama
-                                _hukamNama.value = hukamnama.hukamnama
-                            }
-                            Result.Status.ERROR ->
-                                Log.d(TAG, " get hukamnama called")
-                        }
+    private fun getHukamNama() {
+        Timber.d("getHukamNama requested from Ui layer")
+        viewModelScope.launch {
+            hukamnamaRepository.getHukamnama(false).collect {
+                when (it.status) {
+                    Result.Status.SUCCESS -> {
+                        Timber.d("getHukamNama result success")
+                        var result = it.data as HukamnamaDetail
+                        hukamNamaState = hukamNamaState.copy(hukamnama = result);
+                    }
+                    Result.Status.ERROR -> {
+                        Timber.e("getHukamNama result error ${it.message.orEmpty()}")
+                        hukamNamaState = hukamNamaState.copy(
+                            userMessages = hukamNamaState.userMessages + Message(
+                                id = UUID.randomUUID().mostSignificantBits,
+                                message = it.message.orEmpty()
+                            )
+                        )
                     }
                 }
             }
         }
+    }
+
+    fun userMessageShown(messageId: Long) {
+        val messages = hukamNamaState.userMessages.filterNot { it.id == messageId }
+        hukamNamaState.copy(userMessages = messages)
     }
 
     sealed class HukamnamaActions {
