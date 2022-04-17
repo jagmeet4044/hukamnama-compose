@@ -35,13 +35,16 @@ class GurbaaniApplication : Application(), Configuration.Provider {
     }
 
     private fun setupLogger() {
-        Timber.plant(object : Timber.DebugTree() {
-            override fun log(
-                priority: Int, tag: String?, message: String, t: Throwable?
-            ) {
-                super.log(priority, "Hukamnama_today_$tag", message, t)
-            }
-        })
+        if (BuildConfig.DEBUG)
+        {
+            Timber.plant(object : Timber.DebugTree() {
+                override fun log(
+                    priority: Int, tag: String?, message: String, t: Throwable?
+                ) {
+                    super.log(priority, "Hukamnama_today_$tag", message, t)
+                }
+            })
+        }
     }
 
     private fun delayedInit() {
@@ -70,7 +73,10 @@ class GurbaaniApplication : Application(), Configuration.Provider {
             .build()
 
         val repeatingRequest =
-            PeriodicWorkRequestBuilder<RefreshDataWorker>(WorkerUtil.getDelayInMinutes(), TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<RefreshDataWorker>(
+                WorkerUtil.getDelayInMinutes(),
+                TimeUnit.MINUTES
+            )
                 .setConstraints(constraints)
                 .setBackoffCriteria(
                     BackoffPolicy.LINEAR,
